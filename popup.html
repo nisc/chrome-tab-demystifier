@@ -1,0 +1,38 @@
+<style>
+  body {
+    min-width: 300px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+  span {
+    font-weight: bold;
+  }
+
+  #dateDiv {
+    font-size: 11px;
+  }
+
+  #content {
+    display: none;
+  }
+
+  div.popup {
+    margin: 5px;
+    font-size: 13px;
+    font-family: serif;
+    text-align: center;
+  }
+</style>
+
+<script src="popup.js"></script>
+
+<body onload="infect()">
+  <div class="popup">
+    <span id="error">No Idea!</span>
+    <div id="content">
+      <a id="link" href="" target="_blank"></a>
+      <div id="dateDiv"></div>
+    </div>
+  </div>
+</body>

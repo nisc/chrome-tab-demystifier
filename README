@@ -1,0 +1,10 @@
+Chrome/Chromium extension. Shows the referrer of the current
+page whenever the extension icon is clicked.  Useful if you
+can no longer remember why you've opened a certain tab.
+
+Warning: Bugs do exist. I've just hacked this together for my
+own purposes, without thinking a lot. This is my first Chrome
+extension. Use at your own risk.
+
+Packaging HOWTO:
+http://code.google.com/chrome/extensions/packaging.html
