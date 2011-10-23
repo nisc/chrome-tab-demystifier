@@ -1,8 +1,7 @@
-- Restore state correctly after browser restart.
+- Restore state correctly after browser restart (Chromium bug filed)
 - On click, go to referring tab if it is still open, instead of opening
   a new one.
 - Display "minutes/hours ago" instead of absolute date.
 - Display information already before page is fully loaded.
 - Rewrite in CoffeeScript :-)
 - Figure out how to set up content-security-policy correctly.
-- Use PageAction instead of BrowserAction.

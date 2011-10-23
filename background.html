@@ -1,24 +1,11 @@
 <script>
   chrome.extension.onRequest.addListener(function(request, sender, sendResp) {
-    chrome.browserAction.setPopup({
-      tabId: sender.tab.id,
-      popup: "popup.html"
-    });
-
-    chrome.browserAction.setIcon({
-      tabId: sender.tab.id,
-      path: "icons/icon_19.jpg"
-    });
-
-    chrome.browserAction.setBadgeText({
-      tabId: sender.tab.id,
-      text: "?"
-    });
-
-    chrome.browserAction.setTitle({
+    chrome.pageAction.setTitle({
       tabId: sender.tab.id,
       title: "Ref: " + request.ref
     });
+
+    chrome.pageAction.show(sender.tab.id);
   });
 
   // keeps track of the tabs that have been newly created,
