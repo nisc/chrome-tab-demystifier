@@ -18,6 +18,7 @@
     "16": "icons/icon_16.jpg",
     "48": "icons/icon_48.jpg",
     "128": "icons/icon_128.jpg"
-  }
-  //content_security_policy": "default-src 'self' 'unsafe-inline' "
+  },
+  "homepage_url": "https://github.com/nisc/chrome-tab-demystifier",
+  "content_security_policy": "default-src 'self' 'unsafe-inline' "
 }
