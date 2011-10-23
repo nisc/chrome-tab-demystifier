@@ -3,7 +3,6 @@ function infect() {
   function render(opts) {
     var dateElem = document.getElementById("date");
     var linkElem = document.getElementById("link");
-    var errorElem = document.getElementById("error");
 
     if(typeof opts !== "undefined" && opts !== null && opts.url != null) {
       // set link href and alt to ref url
@@ -27,9 +26,6 @@ function infect() {
       } else {
         linkElem.innerHTML = opts.url;
       }
-
-      // hide error
-      errorElem.style.display = "none";
     }
   }
 
@@ -37,7 +33,7 @@ function infect() {
   chrome.extension.onRequest.addListener(function(request, sender, sendResp) {
     var refurl = request.ref;
 
-    if(refurl != null) {
+    if(refurl) {
       chrome.history.getVisits({url: refurl}, function(vitems) {
         // get the first match
         if(vitems.length > 0) {
@@ -77,6 +73,6 @@ function infect() {
 
   // inject script into website which returns us document.referrer
   chrome.tabs.executeScript(null, {
-    code: "chrome.extension.sendRequest({ref: document.referrer}, function(response) {})"
+    file: "content.js"
   }, function() {});
 }

@@ -1,0 +1,23 @@
+<script>
+  chrome.extension.onRequest.addListener(function(request, sender, sendResp) {
+    chrome.browserAction.setPopup({
+      tabId: sender.tab.id,
+      popup: "popup.html"
+    });
+
+    chrome.browserAction.setIcon({
+      tabId: sender.tab.id,
+      path: "icons/icon_19.jpg"
+    });
+
+    chrome.browserAction.setBadgeText({
+      tabId: sender.tab.id,
+      text: "?"
+    });
+
+    chrome.browserAction.setTitle({
+      tabId: sender.tab.id,
+      title: "Ref: " + request.ref
+    });
+  });
+</script>
