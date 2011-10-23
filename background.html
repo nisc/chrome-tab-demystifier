@@ -21,9 +21,26 @@
     });
   });
 
+  // keeps track of the tabs that have been newly created,
+  // until they are fully loaded
+  var justCreated = {};
+
+  chrome.tabs.onCreated.addListener(function(tab) {
+    // flag tab as newly created
+    justCreated[tab.id] = true;
+    // reset after 25s automatically (just in case)
+    setTimeout(25000, function() {
+      delete justCreated[tab.id];
+    });
+  });
+
+  // only perform update action for newly created tabs
   chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-    if(changeInfo['status'] == "complete") {
-      chrome.tabs.executeScript(null, {
+    if((changeInfo['status'] === "complete") &&
+    (tab.url.indexOf("http") === 0) && justCreated[tab.id]) {
+      // remove newly-created flag
+      delete justCreated[tab.id];
+      chrome.tabs.executeScript(tabId, {
         file: "content.js"
       }, function() {});
     }

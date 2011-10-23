@@ -13,7 +13,7 @@ function infect() {
       if(opts.time != null) {
         // render date from epoch timestamp
         var time = new Date(opts.time);
-        dateElem.innerHTML = 'Last visited: <span class="bold">'
+        dateElem.innerHTML = 'which you last visited: <span class="bold">'
           + time.toLocaleTimeString() + '</span> ('
           + time.toLocaleDateString() + ')';
       } else {

@@ -1,4 +1,8 @@
-- Display correct icons when browser is started with existing tabs.
+- Restore state correctly after browser restart.
 - On click, go to referring tab if it is still open, instead of opening
   a new one.
-- Only update status when host changes (?)
+- Display "minutes/hours ago" instead of absolute date.
+- Display information already before page is fully loaded.
+- Rewrite in CoffeeScript :-)
+- Figure out how to set up content-security-policy correctly.
+- Use PageAction instead of BrowserAction.
