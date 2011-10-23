@@ -21,7 +21,7 @@ function infect() {
       }
 
       // set link text to referrer title, if provided
-      if(opts.title != null) {
+      if(typeof opts.title === "string" && opts.title.length > 2) {
         linkElem.innerHTML = opts.title;
       } else {
         linkElem.innerHTML = opts.url;
