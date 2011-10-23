@@ -1,24 +1,44 @@
 function infect() {
-  var dateElem = document.getElementById("dateDiv");
-  var contentElem = document.getElementById("content");
-  var linkElem = document.getElementById("link");
-  var errorElem = document.getElementById("error");
+  // update the popup elements
+  function render(opts) {
+    var dateElem = document.getElementById("date");
+    var linkElem = document.getElementById("link");
+    var errorElem = document.getElementById("error");
 
-  // fallback if not all information could be fetched, for some reason
-  function fallback(referrer) {
-      linkElem.innerHTML = referrer;
-      linkElem.title = referrer;
-      linkElem.href = referrer;
+    if(typeof opts !== "undefined" && opts !== null && opts.url != null) {
+      // set link href and alt to ref url
+      linkElem.href = opts.url;
+      linkElem.title = opts.url;
+
+      // check if last visit time timestamp has been provided
+      if(opts.time != null) {
+        // render date from epoch timestamp
+        var time = new Date(opts.time);
+        dateElem.innerHTML = 'Last visited: <span class="bold">'
+          + time.toLocaleTimeString() + '</span> ('
+          + time.toLocaleDateString() + ')';
+      } else {
+        dateElem.style.display = "none";
+      }
+
+      // set link text to referrer title, if provided
+      if(opts.title != null) {
+        linkElem.innerHTML = opts.title;
+      } else {
+        linkElem.innerHTML = opts.url;
+      }
+
+      // hide error
       errorElem.style.display = "none";
-      contentElem.style.display = "block";
+    }
   }
 
   // listen for message from content script and receive referrer
   chrome.extension.onRequest.addListener(function(request, sender, sendResp) {
-    var referrer = request.ref;
+    var refurl = request.ref;
 
-    if(referrer) {
-      chrome.history.getVisits({url: referrer}, function(vitems) {
+    if(refurl != null) {
+      chrome.history.getVisits({url: refurl}, function(vitems) {
         // get the first match
         if(vitems.length > 0) {
           // get time the referring page was visited
@@ -32,29 +52,24 @@ function infect() {
             maxResults: 1 // there should only be one result anyway
           }, function(hitems) {
             if(hitems.length > 0) {
-              // set link title and URL
-              linkElem.innerHTML = hitems[0].title || hitems[0].url;
-              linkElem.title = hitems[0].url;
-              linkElem.href = hitems[0].url;
-
-              // get date object from epoch timestamp
-              var time = new Date(hitems[0].lastVisitTime);
-              dateElem.innerHTML = "Last visited: <span>" +
-                time.toLocaleTimeString() + "</span> (" +
-                time.toLocaleDateString() + ")";
-
-              // show content, hide error
-              errorElem.style.display = "none";
-              contentElem.style.display = "block";
-
+              render({
+                title: hitems[0].title,
+                url: refurl,
+                time: hitems[0].lastVisitTime
+              });
             } else {
               // failed to get a history item
-              fallback(referrer);
+              render({
+                url: refurl,
+                time: vtime
+              });
             };
           });
         } else {
           // failed to get a visit entry
-          fallback(referrer);
+          render({
+            url: refurl
+          });
         }
       });
     }

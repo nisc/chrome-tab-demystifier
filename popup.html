@@ -5,16 +5,8 @@
     overflow-y: hidden;
   }
 
-  span {
+  .bold {
     font-weight: bold;
-  }
-
-  #dateDiv {
-    font-size: 11px;
-  }
-
-  #content {
-    display: none;
   }
 
   div.popup {
@@ -23,16 +15,20 @@
     font-family: serif;
     text-align: center;
   }
+
+  div#date {
+    font-size: 11px;
+  }
 </style>
 
 <script src="popup.js"></script>
 
 <body onload="infect()">
   <div class="popup">
-    <span id="error">No Idea!</span>
-    <div id="content">
+    <span id="error" class="bold">No idea!</span>
+    <div>
       <a id="link" href="" target="_blank"></a>
-      <div id="dateDiv"></div>
+      <div id="date"></div>
     </div>
   </div>
 </body>
