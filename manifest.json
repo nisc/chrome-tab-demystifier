@@ -1,6 +1,6 @@
 {
   "name": "Tab Demystifier",
-  "version": "0.2",
+  "version": "0.2.1",
   "description": "Shows what has opened a page. Useful if you can no longer remember why you've opened a certain tab.",
   "browser_action": {
     "default_icon": "icons/icon_off_19.jpg",
@@ -8,13 +8,6 @@
     "default_popup": ""
   },
   "background_page": "background.html",
-  "content_scripts": [
-    {
-      "matches": ["http://*/*", "https://*/*"],
-      "js": ["content.js"],
-      "run_at": "document_end"
-    }
-  ],
   "permissions": [
     "http://*/*",
     "https://*/*",
