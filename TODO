@@ -4,4 +4,3 @@
 - Display "minutes/hours ago" instead of absolute date.
 - Display information already before page is fully loaded.
 - Rewrite in CoffeeScript :-)
-- Figure out how to set up content-security-policy correctly.
