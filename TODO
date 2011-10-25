@@ -1,6 +1,5 @@
 - Restore state correctly after browser restart (Chromium bug filed)
-- On click, go to referring tab if it is still open, instead of opening
-  a new one.
+- Highlight element on referring page that was clicked.
 - Display "minutes/hours ago" instead of absolute date.
 - Display information already before page is fully loaded.
 - Rewrite in CoffeeScript :-)

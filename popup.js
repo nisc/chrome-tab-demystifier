@@ -5,7 +5,7 @@ function infect() {
     var linkElem = document.getElementById("link");
 
     if(typeof opts !== "undefined" && opts !== null && opts.url != null) {
-      // set link href and alt to ref url
+      // set link title and href to url
       linkElem.href = opts.url;
       linkElem.title = opts.url;
 
@@ -26,6 +26,46 @@ function infect() {
       } else {
         linkElem.innerHTML = opts.url;
       }
+
+      // loop through tabs in all windows
+      chrome.windows.getAll({ populate: true }, function(windows) {
+        // premature optimization is the root of all evil
+        var foundit = false;
+        for(var i=0; i<windows.length && !foundit; i++) {
+          var tabs = windows[i].tabs;
+          // cycle through all tabs in window
+          for(var j=0; j<tabs.length; j++) {
+            if(tabs[j].url.split("#")[0] === opts.url) {
+              // found tab with referrer in url, attach click listener
+              // to link text that switches to this tab
+              var vid = windows[i].id, tid = tabs[j].id;
+              linkElem.onclick = function() {
+                // first set corresponding window
+                chrome.windows.update(vid, {
+                  drawAttention: false, // this would only highlight
+                  focused: true // but we need ze focus
+                });
+
+                // now select corresponding tab (order matters, which I
+                // had to find out painfully)
+                chrome.tabs.update(tid, {
+                  selected: true
+                });
+
+                // eat click event
+                return false;
+              }
+
+              // update popup text
+              dateElem.innerHTML += '<br><span class="bold">'
+                +'It is still open in another tab!</span>';
+              // we found it, so stop looping through windows
+              foundit = true;
+              break;
+            }
+          }
+        }
+      });
     }
   }
 
