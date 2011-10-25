@@ -1,6 +1,6 @@
 {
   "name": "Tab Demystifier",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Shows the external referrer of newly created tabs. Useful if you can no longer remember why you've opened a certain tab.",
   "page_action": {
     "default_icon": "icons/icon_19.jpg",
