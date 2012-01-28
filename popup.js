@@ -13,7 +13,7 @@ function infect() {
       if(opts.time != null) {
         // render date from epoch timestamp
         var time = new Date(opts.time);
-        dateElem.innerHTML = 'which you last visited: <span class="bold">'
+        dateElem.innerHTML = 'Last visited: <span class="bold">'
           + time.toLocaleTimeString() + '</span> ('
           + time.toLocaleDateString() + ')';
       } else {
@@ -69,10 +69,8 @@ function infect() {
     }
   }
 
-  // listen for message from content script and receive referrer
-  chrome.extension.onRequest.addListener(function(request, sender, sendResp) {
-    var refurl = request.ref;
-
+  // take referrer string, return object containing title, url, time.
+  function getRefInfo(refurl, cb) {
     if(refurl) {
       chrome.history.getVisits({url: refurl}, function(vitems) {
         // get the first match
@@ -88,14 +86,14 @@ function infect() {
             maxResults: 1 // there should only be one result anyway
           }, function(hitems) {
             if(hitems.length > 0) {
-              render({
+              return cb({
                 title: hitems[0].title,
                 url: refurl,
                 time: hitems[0].lastVisitTime
               });
             } else {
               // failed to get a history item
-              render({
+              return cb({
                 url: refurl,
                 time: vtime
               });
@@ -103,12 +101,17 @@ function infect() {
           });
         } else {
           // failed to get a visit entry
-          render({
+          return cb({
             url: refurl
           });
         }
       });
     }
+  }
+
+  // listen for message from content script and receive referrer
+  chrome.extension.onRequest.addListener(function(request, sender, sendResp) {
+    getRefInfo(request.ref, render);
   });
 
   // inject script into website which returns us document.referrer
